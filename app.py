@@ -3,13 +3,11 @@ from flask import Flask
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, ContextTypes
 
-import os
-TOKEN = os.getenv("BOT_TOKEN")
+TOKEN = os.getenv("BOT_TOKEN")  # ⚠️ Must come from Environment Variable
 
 app = Flask(__name__)
 telegram_app = ApplicationBuilder().token(TOKEN).build()
 
-# 🔹 Product Delivery
 async def deliver_product(chat_id, context):
     try:
         with open("products.txt", "r") as f:
@@ -26,16 +24,14 @@ async def deliver_product(chat_id, context):
 
         await context.bot.send_message(chat_id=chat_id, text=f"✅ Your Product:\n{product}")
 
-    except:
+    except Exception as e:
         await context.bot.send_message(chat_id=chat_id, text="Error delivering product.")
 
-# 🔹 Start Command
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [[InlineKeyboardButton("Buy Now 💳", callback_data="buy")]]
     reply_markup = InlineKeyboardMarkup(keyboard)
     await update.message.reply_text("Welcome! Click below to buy.", reply_markup=reply_markup)
 
-# 🔹 Button Handler
 async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
