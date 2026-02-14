@@ -3,7 +3,8 @@ from flask import Flask
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, ContextTypes
 
-TOKEN = os.getenv("8393684527:AAFimC-SeiYAHmxdTbgS7n_mH18Yj7kR81A")
+import os
+TOKEN = os.getenv("BOT_TOKEN")
 
 app = Flask(__name__)
 telegram_app = ApplicationBuilder().token(TOKEN).build()
